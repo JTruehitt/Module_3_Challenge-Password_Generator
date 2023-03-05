@@ -82,6 +82,7 @@ function writePassword() {
       "Please select a password length between 8 and 128 characters."
     );
     // If the user clicks cancel in a prompt, it returns a value of null. Placing this first in the if sequence as the null will be coerced to a 0 if placed in a logical expression, which would result in a frustrating user experience if the null was to be run on the passwordLength < 8 level. Placing this first allows the user to cancel and exit the process.
+    // I know the following run of if/else statements likely could have been condensed, but I wanted to challenge myself to learn some additional concepts and also provide the user with feedback specific to their input.
     if (passwordLength == null) {
       return;
       // If the user clicks OK without typing anything, it returns an empty string ("")
@@ -98,8 +99,10 @@ function writePassword() {
     } else if (Math.round(passwordLength) != passwordLength) {
       alert("No decimals allowed. Please try again.");
       // With all invalid entries accounted for, we know we have a valid password length, so we indicate invalidLength is false, which ceases the while loop and allows the user to proceed to the next section.
-    } else {
+    } else if (8 <= passwordLength && passwordLength <= 128) {
       var invalidLength = false;
+    } else {
+      alert("I'm not even sure what you did to get here, but please try again");
     }
   }
   // if the user gets here and still has an invalidLength of true, this means they clicked cancel on the password length part. We want to catch them here and stop the function from continuing.
