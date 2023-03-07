@@ -244,6 +244,11 @@ let copiedPassword = function () {
   copyBtn.innerText = "Copied!";
 };
 
+let reCopyPassword = function() {
+  copyBtn.innerText = "Copy"
+}
+
 // adds event listeners on click to copy password and change text
 copyBtn.addEventListener("click", copyPassword);
 copyBtn.addEventListener("click", copiedPassword);
+generateBtn.addEventListener("click", reCopyPassword);
