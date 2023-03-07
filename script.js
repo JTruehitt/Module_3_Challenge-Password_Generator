@@ -114,7 +114,110 @@ function writePassword() {
       passwordLength +
       ". Great choice. \nPlease answer the following prompts to select which types of characters your password will be comprised of."
   );
-  // console.log(invalidLength);
+  
+  let l = "";
+  let u = "";
+  let n = "";
+  let s = "";
+
+  var userSelections = function () {
+    if (confirm("Would you like to use lowercase letters?")) {
+      useLowercase = true;
+    } else {
+      useLowercase = false;
+    }
+    if (confirm("Would you like to use uppercase letters?")) {
+      useUppercase = true;
+    } else {
+      useUppercase = false;
+    }
+    if (confirm("Would you like to use numbers?")) {
+      useNumbers = true;
+    } else {
+      useNumbers = false;
+    }
+    if (confirm("Would you like to use special characters?")) {
+      useSpecial = true;
+    } else {
+      useSpecial = false;
+    }
+
+    if (
+      useLowercase != true &&
+      useUppercase != true &&
+      useNumbers != true &&
+      useSpecial != true
+    ) {
+      alert(
+        "Not much of a password if you don't use any of the characters! Please try again and make at least one selection"
+      );
+      userSelections();
+    }
+
+    if (useLowercase) {
+      l = "Yes";
+    } else {
+      l = "No";
+    }
+    if (useUppercase) {
+      u = "Yes";
+    } else {
+      u = "No";
+    }
+    if (useNumbers) {
+      n = "Yes";
+    } else {
+      n = "No";
+    }
+    if (useSpecial) {
+      s = "Yes";
+    } else {
+      s = "No";
+    }
+
+    var passwordCharacters = [];
+
+    var buildPassword = function () {
+      if (useLowercase) {
+        passwordCharacters = passwordCharacters.concat(lowercaseArr);
+      }
+      if (useUppercase) {
+        passwordCharacters = passwordCharacters.concat(uppercaseArr);
+      }
+      if (useNumbers) {
+        passwordCharacters = passwordCharacters.concat(numberArr);
+      }
+      if (useSpecial) {
+        passwordCharacters = passwordCharacters.concat(specialArr)
+      }
+      console.log(passwordCharacters)
+    };
+    if (
+      confirm(
+        "Great. To confirm, you made the following selections: \nUse lowercase letters: " +
+          l +
+          "\nUse uppercase letters: " +
+          u +
+          "\nUse numbers: " +
+          n +
+          "\nUse special characters: " +
+          s +
+          "\n\nIf correct press OK to have your password generated. If you would like to make different selections, press cancel."
+      )
+    ) {
+      buildPassword();
+    } else {
+      userSelections();
+    }
+  };
+
+  userSelections();
+  // console.log(useLowercase);
+  // console.log(useUppercase);
+  // console.log(useNumbers);
+  // console.log(useSpecial);
+
+  console.log("this worked!!");
 
   passwordText.value = password;
 }
