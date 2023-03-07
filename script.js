@@ -134,7 +134,7 @@ function generatePassword() {
       }
       if (
         confirm(
-          "Would you like to use special characters?\n\nOK = Yes\nCancel = No"
+          "Would you like to use special characters?\nThis generator uses the following special characters:\n!#$%&'()*+,-./:;<=>?@[]^_`{|}~\n\nOK = Yes\nCancel = No"
         )
       ) {
         useSpecial = true;
@@ -244,9 +244,9 @@ let copiedPassword = function () {
   copyBtn.innerText = "Copied!";
 };
 
-let reCopyPassword = function() {
-  copyBtn.innerText = "Copy"
-}
+let reCopyPassword = function () {
+  copyBtn.innerText = "Copy";
+};
 
 // adds event listeners on click to copy password and change text
 copyBtn.addEventListener("click", copyPassword);
