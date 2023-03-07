@@ -1,79 +1,50 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-// My code starts below this line
-
-// Creating arrays for possible selection criteria: lowercase, uppercase, numbers, special characters
-// reference on how to pull desired characters:
-// String.fromCharCode: https://www.w3schools.com/jsref/jsref_fromcharcode.asp
-// List of useful charcodes: https://www.w3schools.com/charsets/ref_utf_basic_latin.asp
-// lowercase codes: 97 - 122
-// uppercase codes: 65 - 90
-// number codes: 48 - 57
-// special codes: due to different ranges, copied special codes from link provided in Module 3 instructions: "!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
-
-// Creating array for lowercase letters
+// Creating arrays for potential characters to be used in password.
+// For lowercase and numbers, utilized fromCharCode values to push selected range into my arrays. Shout out W3Schools
 const lowercaseArr = [];
 for (i = 97; i < 123; i++) {
   lowercaseArr.push(String.fromCharCode(i));
 }
 
-// Creating array for uppercase letters. I could have used the same method as above but wanted to explore other options for learning purposes.
 const uppercaseArr = [];
 for (i = 0; i < lowercaseArr.length; i++) {
   uppercaseArr.push(lowercaseArr[i].toUpperCase());
 }
 
-// Creating array for numbers
 const numberArr = [];
 for (i = 48; i < 58; i++) {
   numberArr.push(String.fromCharCode(i));
 }
 
-// Setting array for special
 let specialChar = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
-// break up continuous string into individual items for an array
 const specialArr = specialChar.split("");
 
-// confirmed all arrays loaded correctly. success!
-// console.log(lowercaseArr)
-// console.log(uppercaseArr)
-// console.log(numberArr)
-// console.log(specialArr)
+//setting empty array to be filled with user selection.
+var passwordCharacters = [];
 
-// putting dummy value for ps right now
-function generatePassword() {
-  "password123";
-}
-
-// Moved provided code down here
-// Write password to the #password input
-// initializing varibles to be filled or changed through user prompts
-var useLowercase = false;
-var useUppercase = false;
-var useNumbers = false;
-var useSpecial = false;
-
-function writePassword() {
+// challenge provided this function
+let writePassword = function () {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
-  // my code starts below
-  // If the user clicks OK, a boolean true is returned. If Cancel is clicked, false is returned.
-  // Utilized the if statement on this inital confirm to allow the user the option to cancel and exit process.
+  passwordText.value = password;
+};
+
+// If the user clicks OK on the confirm window, a boolean true is returned. If Cancel is clicked, false is returned.
+// Utilized the if statement on this inital confirm to allow the user the option to cancel and exit process.
+function generatePassword() {
   if (
     confirm(
       "Please complete the following prompts to select password length and desired characters."
     )
   ) {
-    var startPrompts = "Proceeding to generate password";
   } else {
-    var startPrompts = "User chose not to proceed";
     return;
   }
 
   // Password length setup
-
   // Initializing invalidLength as true to allow while loop to iterate until we detemine the invalidLength is false, or in other words the password length is valid.
   var invalidLength = true;
   // while loop will run the code within its {} until the provided parameter (invalidLength) turns false.
@@ -92,7 +63,7 @@ function writePassword() {
       alert("You entered a number less than 8. Please try again.");
     } else if (passwordLength > 128) {
       alert("You entered a number greater than 128. Please try again.");
-      // This ensures that only numbers aare input. The prompt will only return a string, even if a number is input (i.e. input of 8 will return "8"). parseInt("string", 10) will force the string to be a number, and the 10 indicates that we return a normal decimal style number. Number.isNaN will take the result of the coerced number and return false if it is an actual number ("8" => 8 is a real number, so returns false) or not true if it is not really a number, NaN ("hello" => coerced number hello is NaN, not a real number).
+      // This ensures that only numbers are input. The prompt will only return a string, even if a number is input (i.e. input of 8 will return "8"). parseInt("string", 10) will force the string to be a number, and the 10 indicates that we return a normal decimal style number. Number.isNaN will take the result of the coerced number and return false if it is an actual number ("8" => 8 is a real number, so returns false) or true if it is not really a number, NaN ("hello" => coerced number hello is NaN, not a real number).
     } else if (Number.isNaN(parseInt(passwordLength, 10))) {
       alert("You didn't enter a number. Please try again.");
       // Math.round() will round the input to the nearest integer. If the result calculation does not equal the original input, then the number provided was a decimal and therefore not allowed (math.round(8.8) => 9, 9!= 8.8).
@@ -102,10 +73,12 @@ function writePassword() {
     } else if (8 <= passwordLength && passwordLength <= 128) {
       var invalidLength = false;
     } else {
-      alert("I'm not even sure what you did to get here, but please try again");
+      alert(
+        "I'm not even sure what you did to get here, but please try again."
+      );
     }
   }
-  // if the user gets here and still has an invalidLength of true, this means they clicked cancel on the password length part. We want to catch them here and stop the function from continuing.
+  // if the user gets here and still has an invalidLength of true, this means they clicked cancel on the password length part. We want to catch them here and stop the function from continuing for better user experience.
   if (invalidLength) {
     return;
   }
@@ -114,87 +87,90 @@ function writePassword() {
       passwordLength +
       ". Great choice. \nPlease answer the following prompts to select which types of characters your password will be comprised of."
   );
-  
-  let l = "";
-  let u = "";
-  let n = "";
-  let s = "";
 
+  // declares variables to be filled out for use in verifying user selections and displaying clearly in prompt box what was selected.
+  let l;
+  let u;
+  let n;
+  let s;
+
+  var useLowercase;
+  var useUppercase;
+  var useNumbers;
+  var useSpecial;
+
+  // setting while loop to force user to select at least one type of character
+  var invalidPasswordChar = true;
   var userSelections = function () {
-    if (confirm("Would you like to use lowercase letters?")) {
-      useLowercase = true;
-    } else {
-      useLowercase = false;
-    }
-    if (confirm("Would you like to use uppercase letters?")) {
-      useUppercase = true;
-    } else {
-      useUppercase = false;
-    }
-    if (confirm("Would you like to use numbers?")) {
-      useNumbers = true;
-    } else {
-      useNumbers = false;
-    }
-    if (confirm("Would you like to use special characters?")) {
-      useSpecial = true;
-    } else {
-      useSpecial = false;
+    while (invalidPasswordChar) {
+      if (
+        confirm(
+          "Would you like to use lowercase letters?\n\nOK = Yes\nCancel = No"
+        )
+      ) {
+        useLowercase = true;
+        l = "Yes";
+      } else {
+        useLowercase = false;
+        l = "No";
+      }
+      if (
+        confirm(
+          "Would you like to use uppercase letters?\n\nOK = Yes\nCancel = No"
+        )
+      ) {
+        useUppercase = true;
+        u = "Yes";
+      } else {
+        useUppercase = false;
+        u = "No";
+      }
+      if (confirm("Would you like to use numbers?\n\nOK = Yes\nCancel = No")) {
+        useNumbers = true;
+        n = "Yes";
+      } else {
+        useNumbers = false;
+        n = "No";
+      }
+      if (
+        confirm(
+          "Would you like to use special characters?\n\nOK = Yes\nCancel = No"
+        )
+      ) {
+        useSpecial = true;
+        s = "Yes";
+      } else {
+        useSpecial = false;
+        s = "No";
+      }
+
+      // verifies that at lease one character was selected and exits while loop
+      if (
+        useLowercase === true ||
+        useUppercase === true ||
+        useNumbers === true ||
+        useSpecial === true
+      ) {
+        invalidPasswordChar = false;
+      }
+
+      // if all criteria are false, gives the user an alert to pick some characters before re-initiating while loop.
+      if (
+        useLowercase != true &&
+        useUppercase != true &&
+        useNumbers != true &&
+        useSpecial != true
+      ) {
+        alert(
+          "Not much of a password if you don't use any of the characters! Please try again and make at least one selection."
+        );
+      }
     }
 
-    if (
-      useLowercase != true &&
-      useUppercase != true &&
-      useNumbers != true &&
-      useSpecial != true
-    ) {
-      alert(
-        "Not much of a password if you don't use any of the characters! Please try again and make at least one selection"
-      );
-      userSelections();
-    }
-
-    if (useLowercase) {
-      l = "Yes";
-    } else {
-      l = "No";
-    }
-    if (useUppercase) {
-      u = "Yes";
-    } else {
-      u = "No";
-    }
-    if (useNumbers) {
-      n = "Yes";
-    } else {
-      n = "No";
-    }
-    if (useSpecial) {
-      s = "Yes";
-    } else {
-      s = "No";
-    }
-
-    var passwordCharacters = [];
-
-    var buildPassword = function () {
-      if (useLowercase) {
-        passwordCharacters = passwordCharacters.concat(lowercaseArr);
-      }
-      if (useUppercase) {
-        passwordCharacters = passwordCharacters.concat(uppercaseArr);
-      }
-      if (useNumbers) {
-        passwordCharacters = passwordCharacters.concat(numberArr);
-      }
-      if (useSpecial) {
-        passwordCharacters = passwordCharacters.concat(specialArr)
-      }
-      console.log(passwordCharacters)
-    };
+    // allows the user to confirm their selections. if they confirm, password generation process will proceed, if they decline, character selection while loop criteria is reset and funtion is recalled.
     if (
       confirm(
-        "Great. To confirm, you made the following selections: \nUse lowercase letters: " +
+        "To confirm, you made the following selections: \n\nUse lowercase letters: " +
           l +
           "\nUse uppercase letters: " +
           u +
@@ -205,21 +181,69 @@ function writePassword() {
           "\n\nIf correct press OK to have your password generated. If you would like to make different selections, press cancel."
       )
     ) {
-      buildPassword();
+      var getPasswordChars = function () {
+        passwordCharacters.length = 0;
+        if (useLowercase) {
+          passwordCharacters = passwordCharacters.concat(lowercaseArr);
+        }
+        if (useUppercase) {
+          passwordCharacters = passwordCharacters.concat(uppercaseArr);
+        }
+        if (useNumbers) {
+          passwordCharacters = passwordCharacters.concat(numberArr);
+        }
+        if (useSpecial) {
+          passwordCharacters = passwordCharacters.concat(specialArr);
+        }
+        console.log(passwordCharacters);
+      };
+      getPasswordChars();
     } else {
+      invalidPasswordChar = true;
       userSelections();
     }
   };
 
+  // original prompt of userSelections
   userSelections();
-  // console.log(useLowercase);
-  // console.log(useUppercase);
-  // console.log(useNumbers);
-  // console.log(useSpecial);
 
-  console.log("this worked!!");
+  // generates a random number between 0 and the length of the selected characters, then feeds it into the characters array to pull out a randon character.
+  function getRandomChar() {
+    let rand = Math.floor(Math.random() * passwordCharacters.length);
+    return passwordCharacters[rand];
+  }
+  getRandomChar();
 
-  passwordText.value = password;
+  // declares an empty string to fill in the final password. starts at 1 and loops throught the getrandomchar function until the selected password length is met, adds each random character into the pw string, then returns the value of pw, which becomes the password value pushed to the screen.
+  let pw = "";
+  for (let i = 1; i <= passwordLength; i++) {
+    pw += getRandomChar();
+  }
+  console.log(pw);
+  return pw;
 }
+
+console.log("phew, it worked!!");
+
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+// copy button functions. set varibles to be called
+let copyText = document.querySelector("#password");
+var copyBtn = document.querySelector("#copyBtn");
+
+// function to select all text in the text area and copy it to the clipboard
+let copyPassword = function () {
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(copyText.value);
+};
+
+// once copy button is clicked, changes text to verify for user
+let copiedPassword = function () {
+  copyBtn.innerText = "Copied!";
+};
+
+// adds event listeners on click to copy password and change text
+copyBtn.addEventListener("click", copyPassword);
+copyBtn.addEventListener("click", copiedPassword);
