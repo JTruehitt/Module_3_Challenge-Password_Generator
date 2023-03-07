@@ -17,15 +17,20 @@
           <h2>Generate a Password</h2>
         </div>
         <div class="card-body">
-          <textarea
-            readonly
-            id="password"
-            placeholder="Your Secure Password"
-            aria-label="Generated Password"
-          ></textarea>
+          <div class="pw-area">
+            <textarea
+              readonly
+              id="password"
+              placeholder="Your Secure Password"
+              aria-label="Generated Password"
+            ></textarea>
+            <button id="copyBtn" class="btnEffect">
+              Copy
+            </button>
+          </div>
         </div>
         <div class="card-footer">
-          <button id="generate" class="btn">Generate Password</button>
+          <button id="generate" class="btn btnEffect">Generate Password</button>
         </div>
       </div>
     </div>

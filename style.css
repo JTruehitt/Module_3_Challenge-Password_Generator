@@ -15,6 +15,7 @@ body,
 body {
   font-family: sans-serif;
   background-color: #f9fbfd;
+  text-align: center;
 }
 
 .wrapper {
@@ -24,7 +25,6 @@ body {
 }
 
 header {
-  text-align: center;
   padding: 20px;
   padding-top: 0px;
   color: hsl(206, 17%, 28%);
@@ -72,6 +72,11 @@ header {
   clear: both;
 }
 
+button {
+  cursor: pointer;
+  transition: 200ms all;
+}
+
 .btn {
   border: none;
   background-color: #114466;
@@ -110,12 +115,39 @@ button[disabled] {
   padding-bottom: 85px;
   font-size: 1.2rem;
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 2px dashed #c0c7cf;
   border-radius: 6px;
   resize: none;
   overflow: hidden;
+  max-inline-size: 40ch;
+  margin: 0 auto;
+}
+
+.pw-area {
+  display: flex;
+  position: relative;
+}
+
+#copyBtn {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  border: none;
+  background-color: #114466;
+  border-radius: 25px;
+  color: hsl(0, 0%, 100%);
+  padding: .75em 1em;
+}
+
+.btnEffect:active {
+  transform: scale(.95);
+  box-shadow: 5px 5px 20px hsl(206, 17%, 28%);
+}
+.btnEffect:hover {
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+#copyBtn:visited::after {
+  content: "Copied!"
 }
 
 @media (max-width: 690px) {
